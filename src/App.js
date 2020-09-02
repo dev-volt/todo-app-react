@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import Todos from './Todos'
+import NewItem from './NewItem'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export class App extends Component {
+  state = {
+    todos : [
+      {id : 1, content : 'Complete AWS'},
+      {id : 2, content : 'Complete React'}
+    ]
+  }
+
+  deleteTodo = (id) => {
+    const todos = this.state.todos.filter((todo) => {
+      return todo.id !== id
+    })
+    this.setState({
+      todos
+    })
+  }
+
+  addTodo = (todo) => {
+    todo.id = Math.random()
+    const todos = [...this.state.todos, todo]
+    this.setState({
+      todos
+    })
+  }
+
+  render() {
+    return (
+      <div className="App container">
+        <h1 className="center-align">TO-DO List</h1>
+        <NewItem addTodo = {this.addTodo}></NewItem>
+        <Todos todos={this.state.todos} deleteTodo={this.deleteTodo}></Todos>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
